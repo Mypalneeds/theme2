@@ -492,59 +492,102 @@ section {
     margin: 0 auto;
 }
 
+/* --- Image-background service cards --- */
 .service-card {
-    background: var(--white);
-    padding: 2.5rem 2rem;
-    border-radius: 12px;
-    box-shadow: var(--shadow-sm);
-    transition: var(--transition-fast);
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
     height: 100%;
-    border: 1px solid rgba(30, 58, 138, 0.1);
+    min-height: 360px;
+    transition: var(--transition-fast);
+    cursor: default;
 }
 
-.service-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--primary-blue);
+.service-card-img {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
+/* Dark gradient overlay */
+.service-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        rgba(10, 15, 30, 0.45) 0%,
+        rgba(15, 23, 42, 0.82) 60%,
+        rgba(15, 23, 42, 0.97) 100%
+    );
+    transition: var(--transition-fast);
+    z-index: 1;
+}
+
+.service-card:hover .service-card-overlay {
+    background: linear-gradient(
+        180deg,
+        rgba(30, 58, 138, 0.55) 0%,
+        rgba(15, 23, 42, 0.88) 60%,
+        rgba(15, 23, 42, 1) 100%
+    );
+}
+
+/* Content sits above overlay */
+.service-card-body {
+    position: relative;
+    z-index: 2;
+    padding: 2.5rem 2rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* Icon box */
 .service-icon {
-    width: 80px;
-    height: 80px;
-    background: var(--light-blue);
+    width: 72px;
+    height: 72px;
+    background: rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(59, 130, 246, 0.4);
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     transition: var(--transition-fast);
+    backdrop-filter: blur(4px);
 }
 
 .service-card:hover .service-icon {
-    background: var(--primary-blue);
+    background: var(--medium-blue);
+    border-color: var(--medium-blue);
 }
 
 .service-icon i {
-    font-size: 2rem;
-    color: var(--primary-blue);
+    font-size: 1.75rem;
+    color: var(--white);
     transition: var(--transition-fast);
 }
 
-.service-card:hover .service-icon i {
-    color: var(--white);
-}
-
 .service-card h3 {
-    font-size: 1.5rem;
-    color: var(--black);
-    margin-bottom: 1rem;
+    font-size: 1.35rem;
+    color: var(--white);
+    margin-bottom: 0.75rem;
     font-weight: 700;
+    line-height: 1.3;
 }
 
 .service-card p {
-    color: var(--gray);
-    font-size: 1rem;
-    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.93rem;
+    line-height: 1.65;
+    margin-bottom: 0;
+}
+
+/* Lift on hover */
+.service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 48px rgba(15, 23, 42, 0.35);
 }
 
 /* ===================================
@@ -754,7 +797,157 @@ section {
 }
 
 /* ===================================
-   9. CTA SECTION
+   9. CLIENTS & PARTNERS SECTION
+   =================================== */
+
+.clients-section {
+    padding: 6rem 0;
+    background: var(--white);
+}
+
+.clients-slider-wrapper {
+    position: relative;
+    padding: 0 3rem;
+}
+
+/* Each slide row — 5 logos in a flex row */
+.clients-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 1rem 0 2.5rem;
+}
+
+/* Individual logo box */
+.client-logo-box {
+    flex: 0 0 calc(20% - 1.5rem);
+    max-width: 180px;
+    min-width: 120px;
+    background: var(--white);
+    border: 1px solid rgba(30, 58, 138, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+}
+
+.client-logo-box:hover {
+    border-color: var(--primary-blue);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+}
+
+.client-logo {
+    max-width: 100%;
+    max-height: 70px;
+    object-fit: contain;
+    filter: grayscale(100%) opacity(0.65);
+    transition: var(--transition-fast);
+}
+
+.client-logo-box:hover .client-logo {
+    filter: grayscale(0%) opacity(1);
+}
+
+/* Carousel prev/next arrows */
+.clients-prev,
+.clients-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-60%);
+    width: 46px;
+    height: 46px;
+    background: var(--white);
+    border: 1px solid rgba(30, 58, 138, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-blue);
+    font-size: 1rem;
+    opacity: 1;
+    z-index: 10;
+    transition: var(--transition-fast);
+    box-shadow: var(--shadow-sm);
+}
+
+.clients-prev { left: 0; }
+.clients-next { right: 0; }
+
+.clients-prev:hover,
+.clients-next:hover {
+    background: var(--primary-blue);
+    border-color: var(--primary-blue);
+    color: var(--white);
+    box-shadow: var(--shadow-md);
+}
+
+.clients-prev i,
+.clients-next i {
+    color: inherit;
+}
+
+/* Dot indicators */
+.clients-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.client-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(30, 58, 138, 0.2);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.client-dot.active,
+.client-dot:hover {
+    background: var(--primary-blue);
+    transform: scale(1.2);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .client-logo-box {
+        flex: 0 0 calc(33.33% - 1.5rem);
+    }
+}
+
+@media (max-width: 575px) {
+    .clients-slider-wrapper {
+        padding: 0 2.5rem;
+    }
+
+    .client-logo-box {
+        flex: 0 0 calc(50% - 1rem);
+        padding: 1rem;
+    }
+
+    .client-logo {
+        max-height: 50px;
+    }
+
+    .clients-prev,
+    .clients-next {
+        width: 36px;
+        height: 36px;
+        font-size: 0.85rem;
+    }
+}
+
+/* ===================================
+   10. CTA SECTION
    =================================== */
 
 .cta-section {
@@ -1401,6 +1594,10 @@ section {
     
     /* Service Cards */
     .service-card {
+        min-height: 300px;
+    }
+    
+    .service-card-body {
         padding: 2rem 1.5rem;
     }
     
@@ -1639,6 +1836,10 @@ section {
     
     /* Service Cards */
     .service-card {
+        min-height: 280px;
+    }
+    
+    .service-card-body {
         padding: 1.75rem 1.25rem;
     }
     
