@@ -543,3 +543,48 @@ if (typeof window !== 'undefined') {
         copyToClipboard
     };
 }
+// ===================================
+// PROJECT LIGHTBOX
+// ===================================
+(function () {
+    function openLightbox(src, caption) {
+        document.getElementById('aapLightboxImg').src = src;
+        document.getElementById('aapLightboxCaption').textContent = caption || '';
+        document.getElementById('aapLightbox').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        var lb = document.getElementById('aapLightbox');
+        if (lb) { lb.classList.remove('open'); }
+        document.body.style.overflow = '';
+    }
+
+    function addViewFullButtons() {
+        document.querySelectorAll('.project-card .project-image').forEach(function (wrapper) {
+            if (wrapper.querySelector('.view-full-btn')) return;
+            var btn = document.createElement('button');
+            btn.className = 'view-full-btn';
+            btn.innerHTML = '<i class="fas fa-expand-alt"></i> View Full';
+            wrapper.appendChild(btn);
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var img = wrapper.querySelector('img');
+                if (img) openLightbox(img.src, img.alt);
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Wire up lightbox close controls
+        var backdrop = document.querySelector('#aapLightbox .aap-lb-backdrop');
+        var closeBtn = document.querySelector('#aapLightbox .aap-lb-close');
+        if (backdrop) backdrop.addEventListener('click', closeLightbox);
+        if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        addViewFullButtons();
+    });
+})();
